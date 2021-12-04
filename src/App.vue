@@ -16,7 +16,16 @@ export default {
 </script>
 
 <style lang="scss">
-#app {
-  
+html {
+  scroll-behavior: smooth;
 }
+
+@keyframes fade {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 </style>
