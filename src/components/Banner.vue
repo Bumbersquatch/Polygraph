@@ -100,7 +100,7 @@ export default {
                 wordChain:  1,
                 allowSameSentenceDuplicate:  false,
                 ignoreIrrelevantSingleWords:  true,
-                commonWords: ['shows', 'named', 'released', 'people', 'found', 'suggests', 'picture', 'photo', 'video', 'child', "doesnt"]
+                commonWords: ['shows', 'named', 'released', 'people', 'found', 'suggests', 'picture', 'photo', 'video', 'child', "doesnt", 'image', 'photograph']
               })
 
               this.trendingKeyWords = trending.map((obj, index) => ({ ...obj, weight: trending.length - index })).sort(() => Math.random() - 0.5)
