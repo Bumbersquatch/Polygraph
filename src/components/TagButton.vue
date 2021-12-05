@@ -11,7 +11,6 @@ export default {
     },
     methods: {
        handleTagClick(keyword) {
-           console.log(keyword)
            this.$emit('tagClick', keyword)
        }
     }

@@ -104,7 +104,6 @@ export default {
               })
 
               this.trendingKeyWords = trending.map((obj, index) => ({ ...obj, weight: trending.length - index })).sort(() => Math.random() - 0.5)
-              console.log(this.trendingKeyWords)
             } else {
                 this.$emit('setError')
                 this.initLoad = true
@@ -114,7 +113,6 @@ export default {
               this.$emit('setError')
               this.initLoad = true
           })
-          
         })
         }
     }

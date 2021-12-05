@@ -19,6 +19,10 @@ yarn build
 ```
 yarn lint
 ```
+### Run Jest Tests
+```
+yarn jest
+```
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

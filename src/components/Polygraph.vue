@@ -47,19 +47,22 @@ export default {
         }).then((data) => {
             if (data?.result?.claims) {
               const claims = data.result.claims
-              this.claimsStats.search = tag
-              this.claimsStats.total = claims.length
-              this.claimsStats.days = 30
-              this.claimsStats.falseClaims = claims.filter((item) => {
+              const falseClaims = claims.filter((item) => {
                 return item.claimReview[0].textualRating.toLowerCase() === 'false'
               }).length
-              this.claimsStats.trueClaims = claims.filter((item) => {
+              const trueClaims = claims.filter((item) => {
                 return item.claimReview[0].textualRating.toLowerCase() === 'true'
               }).length
+              const truePercent = Math.round((100 * trueClaims) / claims.length)
 
-              this.claimsStats.misleading = this.claimsStats.total - (this.claimsStats.trueClaims + this.claimsStats.falseClaims)
-              this.claimsStats.truePercentage = Math.round((100 * this.claimsStats.trueClaims) / this.claimsStats.total)
-              this.claimsStats.misninformationPercentage = 100 - this.claimsStats.truePercentage
+              Object.assign(this.claimsStats, {search: tag})
+              Object.assign(this.claimsStats, {total: claims.length})
+              Object.assign(this.claimsStats, {days: 30})
+              Object.assign(this.claimsStats, {falseClaims: falseClaims})
+              Object.assign(this.claimsStats, {trueClaims: trueClaims})
+              Object.assign(this.claimsStats, {misleading: claims.length - (trueClaims + falseClaims)})
+              Object.assign(this.claimsStats, {truePercentage: truePercent})
+              Object.assign(this.claimsStats, {trueClaims: 100 - truePercent})
               
               this.claims = claims.sort((a,b) => {
                 var c = new Date(a.claimReview[0].reviewDate)
