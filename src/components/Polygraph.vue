@@ -26,7 +26,6 @@ export default {
           trendingKeyWords: [],
           claims: null,
           claimsStats: {},
-          initLoad: false,
           loading: false,
           error: ''
       }
@@ -62,7 +61,7 @@ export default {
               Object.assign(this.claimsStats, {trueClaims: trueClaims})
               Object.assign(this.claimsStats, {misleading: claims.length - (trueClaims + falseClaims)})
               Object.assign(this.claimsStats, {truePercentage: truePercent})
-              Object.assign(this.claimsStats, {trueClaims: 100 - truePercent})
+              Object.assign(this.claimsStats, {misinformationPercentage: 100 - truePercent})
               
               this.claims = claims.sort((a,b) => {
                 var c = new Date(a.claimReview[0].reviewDate)

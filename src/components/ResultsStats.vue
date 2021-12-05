@@ -15,7 +15,7 @@
         <div class="w-full lg:w-1/3 pl-6 py-3 flex lg:items-center lg:justify-center">
           <div>
             <p class="text-sm">Mis-information:</p>
-            <p class="text-4xl font-bold text-red">{{claimsStats.misninformationPercentage}}%</p>
+            <p class="text-4xl font-bold text-red">{{claimsStats.misinformationPercentage}}%</p>
           </div>
         </div>
     </div>
