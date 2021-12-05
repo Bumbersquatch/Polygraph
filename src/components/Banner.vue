@@ -10,9 +10,9 @@
               <TagCloud @tagClick="handleTagClick" :trendingKeyWords="trendingKeyWords" />
             </div>
 
-            <div class="w-full md:w-1/2 text-center md:text-left flex flex-col justify-center h-full p-6 text-white order-3">
+            <div class="w-full md:w-1/2 text-center md:text-left flex flex-col justify-center p-6 text-white order-3">
                 <div class="inner">
-                <h2 class="text-3xl mb-6 uppercase font-bold">The <span class="htext text-red italic">Mis-</span><span class="vtext">Information Age</span></h2>
+                <h2 class="text-2xl lg:text-3xl mb-6 uppercase font-bold">The <span class="htext text-red italic">Mis-</span><span class="vtext">Information Age</span></h2>
                 <p class="pb-3">We are living in the mis-information age. With the rise of the internet, information is now easier to access than it has ever been. Information can be published at an alarming rate, but how do we ensure the information we consume is accurate, unbiased and reliable?</p>
                 <p>This website demonstrates the spread of mis-information on the internet. Please select one of the current trending topics from the last month to visualise the accuracy of the claims being made in news reports and social media about that topic. </p>
                 </div>
@@ -161,7 +161,7 @@ export default {
     
   }
   .vtext{
-    margin-left:-65px;
+    margin-left:-2.1em;
     transition: all .3s .1s ease-in-out;
   }
 </style>
