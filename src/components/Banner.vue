@@ -87,7 +87,7 @@ export default {
               query: 'a OR e OR s',
               languageCode: 'en',
               maxAgeDays: '30',
-              pageSize: 50
+              pageSize: 200
           }).then((data) => {
             let headlines = []
             if (data.result && data.status === 200) {
