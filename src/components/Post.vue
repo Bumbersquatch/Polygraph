@@ -12,7 +12,7 @@
         </template>
       </div>
       <p v-if="claim.claimant" class="text-sm mt-3">Claim by: {{claim.claimant}}</p>
-      <p class="text-xl py-3 font-bold">{{claim.text}}</p>
+      <p class="claim-text text-xl py-3 font-bold">{{claim.text}}</p>
       <p class="text-sm">Review by <a :href="claim.claimReview[0].publisher.site" target="_blank" rel="noopener noreferrer"> {{claim.claimReview[0].publisher.name}}</a> :
       <p><span class="font-bold">{{claim.claimReview[0].textualRating}}</span></p>
       <font-awesome-icon class="absolute bottom-3 right-3" icon="external-link-alt"></font-awesome-icon>

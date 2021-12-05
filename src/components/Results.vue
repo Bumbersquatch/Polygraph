@@ -5,7 +5,7 @@
         <ResultsStats :claimsStats="claimsStats" />
         
         <div v-if="!loading" id="articles" class="py-6 flex flex-wrap" v-masonry transition-duration="0.3s" item-selector=".article">
-            <article v-masonry-tile v-for="claim in claims" :key="claim.id" class="article py-6 w-1/3 p-6" :class="isTruth(claim.claimReview[0].textualRating.toLowerCase())">
+            <article v-masonry-tile v-for="claim in claims" :key="claim.id" class="article py-6 w-full md:w-1/2 lg:w-1/3 p-6" :class="isTruth(claim.claimReview[0].textualRating.toLowerCase())">
               <Post :claim="claim" :textualRating="isTruth(claim.claimReview[0].textualRating.toLowerCase())" />
             </article>
         </div>

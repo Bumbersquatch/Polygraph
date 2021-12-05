@@ -1,9 +1,9 @@
 <template>
   <div class="text-white">
-    <div v-if="error" class="bg-red text-white text-center fixed top-0 z-10 w-full p-2">
+    <div v-if="error" class="error-message bg-red text-white text-center fixed top-0 z-10 w-full p-2">
       <font-awesome-icon  icon="exclamation-triangle"></font-awesome-icon> {{error}}
     </div>
-    <Banner @tagClick="handleTagClick" :loading="loading" :claims="claims" />
+    <Banner @tagClick="handleTagClick" :loading="loading" :claims="claims" @setError="setError" />
     <Results ref="results" :claimsStats="claimsStats" :claims="claims" :loading="loading" />
     <a v-if="claims" href="#" class="fixed block bottom-0 right-0 px-4 py-2 bg-red cursor-pointer z-10">
       <font-awesome-icon  icon="chevron-up"></font-awesome-icon>
@@ -26,12 +26,11 @@ export default {
           trendingKeyWords: [],
           claims: null,
           claimsStats: {},
-          initLoading: false,
+          initLoad: false,
           loading: false,
           error: ''
       }
   },
-  
   methods:{
     handleTagClick(tag) {
       if(this.loading) {
@@ -73,12 +72,22 @@ export default {
               }, 100)
             } else {
               // error
-              this.error = 'Ooops there seems to have been an error accessing our servers. Please try again later.'
+              this.setError()
             }
+            this.loading = false
+        }).catch((err) => {
+            console.warn(err)
+            this.setError()
             this.loading = false
         })
     })
     },
+    setError(msg = 'Oops! There seems to have been an error accessing our servers. Please try again later.') {
+      this.error = msg;
+      window.setTimeout(() => {
+        this.error = ''
+      }, 5000)
+    }
   }
 }
 </script>

@@ -1,30 +1,32 @@
 <template>
-    <section ref='vantaRef' id="banner" class="w-full h-screen overflow-hidden">
-      <div class="container m-auto h-full flex justify-center items-center">
-        <div class="text-white p-10 absolute left-0 top-0 px-0 w-full text-center">
+    <section ref='vantaRef' id="banner" class="w-full min-h-screen h-auto md:h-screen overflow-hidden">
+      <div class="pt-20 md:pt-0 container m-auto h-full flex justify-center items-center">
+        <div class="text-white p-10 absolute left-0 top-0 px-0 w-full text-center z-10">
           <h1 class="text-5xl text-white font-bold italic uppercase tracking-tight">Polygraph</h1>
         </div>
 
-        <div v-if="trendingKeyWords.length > 0" class="flex">
-            <div class="w-1/2 flex items-center justify-center h-full p-6">
-            <TagCloud @tagClick="handleTagClick" :trendingKeyWords="trendingKeyWords" />
+        <div v-if="trendingKeyWords.length > 0" class="flex flex-wrap flex-col md:flex-row">
+            <div class="w-full md:w-1/2 flex items-center justify-center h-full p-6 order-2">
+              <TagCloud @tagClick="handleTagClick" :trendingKeyWords="trendingKeyWords" />
             </div>
 
-            <div class="w-1/2 flex flex-col justify-center h-full p-6 text-white">
+            <div class="w-full md:w-1/2 text-center md:text-left flex flex-col justify-center h-full p-6 text-white order-3">
                 <div class="inner">
                 <h2 class="text-3xl mb-6 uppercase font-bold">The <span class="htext text-red italic">Mis-</span><span class="vtext">Information Age</span></h2>
-                <p class="pb-3">orem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec quam sed dui commodo sagittis blandit non erat. Nunc venenatis nulla nec fermentum suscipit. Morbi fringilla, tellus a posuere volutpat, elit lectus finibus diam, sed iaculis mi nunc vitae sapien. Pellentesque quis magna sit amet nulla maximus mollis. Phasellus sem urna, maximus ut ex nec, ultrices convallis turpis.</p>
-                <p>Morbi tristique purus vitae turpis tempus ultrices. Ut sit amet tempus tortor. Ut congue aliquam lectus, eu maximus nibh aliquam vel. Nulla non mauris sit amet ante mollis efficitur. Pellentesque auctor erat eu pharetra posuere.</p>
+                <p class="pb-3">We are living in the mis-information age. With the rise of the internet, information is now easier to access than it has ever been. Information can be published at an alarming rate, but how do we ensure the information we consume is accurate, unbiased and reliable?</p>
+                <p>This website demonstrates the spread of mis-information on the internet. Please select one of the current trending topics from the last month to visualise the accuracy of the claims being made in news reports and social media about that topic. </p>
                 </div>
             </div>
             <BannerLoading :loading="loading" :claims="claims" />
         </div>
-        <div v-else class="w-full text-center text-4xl">
-            <font-awesome-icon icon="cog" class="fa-spin"></font-awesome-icon>
+        <div v-else class="w-full min-h-screen text-center text-4xl flex items-center justify-center">
+            <template v-if="initLoad">
+                <p class="text-lg">There seems to be an error connecting to our servers. Please refresh and try again.</p>
+            </template>
+            <template v-else>
+                <font-awesome-icon icon="cog" class="fa-spin"></font-awesome-icon>
+            </template>
         </div>
-
-        
-
       </div>
     </section>
 </template>
@@ -32,8 +34,9 @@
 <script>
 import TagCloud from './TagCloud.vue'
 import BannerLoading from './BannerLoading.vue'
-import NET from 'vanta/src/vanta.net'
-import  TrendingJs  from  'trendingjs'
+import * as THREE from 'three'
+import NET from 'vanta/dist/vanta.net.min'
+import TrendingJs from 'trendingjs'
 
 export default {
     name: 'Banner',
@@ -47,11 +50,39 @@ export default {
     },
     data() {
       return {
-          trendingKeyWords: []
+          trendingKeyWords: [],
+          initLoad: false
       }
     },
     created() {
-      this.$gapi.getGapiClient().then((res) => {
+      this.getRecentData()
+    },
+    mounted() {
+        this.vantaEffect = NET({
+        el: this.$refs.vantaRef,
+        mouseControls: false,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.00,
+        minWidth: 200.00,
+        scale: 1.00,
+        scaleMobile: 1.00,
+        color: 0x6793b8,
+        backgroundColor: 0x030726,
+        points: 22.00,
+        maxDistance: 23.00,
+        spacing: 20.00,
+        showDots: true,
+        THREE: THREE
+        })
+    },
+    methods: {
+        handleTagClick(keyword) {
+            this.$emit('tagClick', keyword)
+        },
+        getRecentData() {
+          this.$gapi.getGapiClient().then((res) => {
+          this.initLoad = false
           res.client.factchecktools.claims.search({ 
               query: 'a OR e OR s',
               languageCode: 'en',
@@ -74,31 +105,17 @@ export default {
 
               this.trendingKeyWords = trending.map((obj, index) => ({ ...obj, weight: trending.length - index })).sort(() => Math.random() - 0.5)
               console.log(this.trendingKeyWords)
+            } else {
+                this.$emit('setError')
+                this.initLoad = true
             }
+          }).catch((err) => {
+              console.warn(err)
+              this.$emit('setError')
+              this.initLoad = true
           })
-      })
-    },
-    mounted() {
-        this.vantaEffect = NET({
-        el: this.$refs.vantaRef,
-        mouseControls: false,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 200.00,
-        minWidth: 200.00,
-        scale: 1.00,
-        scaleMobile: 1.00,
-        color: 0x6793b8,
-        backgroundColor: 0x030726,
-        points: 22.00,
-        maxDistance: 23.00,
-        spacing: 20.00,
-        showDots: true
+          
         })
-    },
-    methods: {
-        handleTagClick(keyword) {
-            this.$emit('tagClick', keyword)
         }
     }
 }

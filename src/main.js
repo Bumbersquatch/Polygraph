@@ -7,7 +7,7 @@ import {VueMasonryPlugin} from 'vue-masonry';
 
 Vue.config.productionTip = false
 Vue.use(VueGapi, {
-  apiKey: 'AIzaSyAjICwMw6ppKxv1qUbK4bD-oTcwD5q-tLI',
+  apiKey: process.env.VUE_APP_GFCTAPIKEY,
   discoveryDocs: ['https://factchecktools.googleapis.com/$discovery/rest?version=v1alpha1']
 })
 Vue.use(VueMasonryPlugin)
